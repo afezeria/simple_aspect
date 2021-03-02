@@ -13,10 +13,10 @@ module SimpleAspect
     end
   end
 
-  @@impls = {}
+  IMPLS = {}
 
   def self.add_impl(sym, impl_obj)
-    @@impls[sym] = impl_obj if impl_obj.is_a? Impl
+    IMPLS[sym] = impl_obj if impl_obj.is_a? Impl
   end
 
   def aspect(*flags)
@@ -37,7 +37,7 @@ module SimpleAspect
       flags.reverse!
       real = flags.reduce(original) do |acc, sym|
         proc { |name, this, *args, &block|
-          impl = @@impls[sym]
+          impl = IMPLS[sym]
           if impl
             impl.around(acc, name, this, *args, &block)
           else
